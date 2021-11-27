@@ -7,13 +7,19 @@ header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
 header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
 header('Access-Control-Max-Age: 86400');
 
-$path = 'C:/Users/Saif i7/Desktop/Web/Uploadedapps/';
+$path = 'C:/xampp/htdocs/myproj/freedownloadr1/uploadedApp/';
 $_POST['appName'];
-$fileName =  $_FILES['file']['name'];
+$appName =  $_FILES['file']['name'];
 $appFile = $_FILES['file']['tmp_name'];
-$result = move_uploaded_file($appFile, $path.$fileName);
-$insertQuery = "INSERT INTO `app` (`id`, `appName`, `OwnerLink`, `thumbnailUrl`,`appSize`, `descriptions`, `version`, `categoryId`, `downloadPath`) VALUES (NULL, '$fileName', '', '', '', '', '', '', '$path$fileName')";
+$thumbnailName =  $_FILES['thumbnail']['name'];
+$thumbnailFile = $_FILES['thumbnail']['tmp_name'];
+
+$result = move_uploaded_file($appFile, $path.$appName);
+$result = move_uploaded_file($thumbnailFile, $path.$thumbnailName);
+
+$insertQuery = "INSERT INTO `app` (`id`, `appName`, `OwnerLink`, `thumbnailUrl`,`appSize`, `descriptions`, `version`, `categoryId`, `downloadPath`) VALUES (NULL, '$appName', '', '$path$thumbnailName', '', '', '', '', '$path$appName')";
 $conn = new mysqli("localhost","root","","freedownloads247");
 $result = mysqli_query($conn,$insertQuery) or die("Connection Faild");
 echo $result;
+//echo $thumbnailName;
 ?>
